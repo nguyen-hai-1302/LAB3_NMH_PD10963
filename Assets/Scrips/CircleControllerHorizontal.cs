@@ -17,7 +17,7 @@ public class CircleControllerHorizontal : MonoBehaviour
     {
         Vector3 movement = new Vector3(direction, 0f, 0f);
         transform.Translate(movement * moveSpeed * Time.deltaTime);
-        if (transform.position.x > -4.5f || transform.position.x < 4.9f)
+        if (transform.position.x > -6.75f || transform.position.x < 6.75f)
         {
             direction *= -1;
         }
