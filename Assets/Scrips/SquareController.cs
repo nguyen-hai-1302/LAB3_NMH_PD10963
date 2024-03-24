@@ -8,6 +8,12 @@ public class SquareController : MonoBehaviour
 {
     public float timeRemaining = 60;
     public Text countdownText;
+    public Text scoreText;
+    public float score = 0;
+    public GameObject bulletPrefab;
+    public Transform bulletSpawnPoint;
+    public float fireRate = 0.5f;
+    public float nextFire = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +36,10 @@ public class SquareController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(horizontal, vertical, 0f).normalized;
         transform.Translate(movement * 5f * Time.deltaTime);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot();
+        }
     }
     public void LoadNextScene()
     {
@@ -40,12 +50,12 @@ public class SquareController : MonoBehaviour
     {
         if (col.gameObject.tag.Equals("Circle"))
         {
-            Vector2 firstPosition = new Vector2(-8f, 1.5f); 
+            Vector2 firstPosition = new Vector2(-7.5f, 3.5f); 
             transform.position = firstPosition;
         }
         if (col.gameObject.tag.Equals("Pinwheel"))
         {
-            Vector2 firstPosition = new Vector2(-8f, 1.5f);
+            Vector2 firstPosition = new Vector2(-7.5f, 3.5f);
             transform.position = firstPosition;
         }
         if (col.gameObject.name.Equals("Box"))
@@ -53,6 +63,18 @@ public class SquareController : MonoBehaviour
             Debug.Log("Win");
             LoadNextScene();
         }
+        if (col.gameObject.tag.Equals("CircleYellow"))
+        {
+            Destroy(col.gameObject);
+            score++;
+            scoreText.text = "Score: " + score.ToString();
+
+        }        
+    }
+    public void Shoot()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody2D>().velocity = transform.right * 10f;
     }
 
 }
